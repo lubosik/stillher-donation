@@ -4,210 +4,112 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You | StillHer Foundation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;1,400&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:   #080810;
-      --gold: #C9A96E;
-      --white: #FFFFFF;
-      --muted: rgba(255,255,255,0.35);
-    }
-
+    :root { --gold: #C9A96E; --bg: #080810; --white: #FAFAF7; }
     html { font-size: 16px; }
-    body {
-      font-family: 'Lora', Georgia, serif;
-      background: var(--bg);
-      color: var(--white);
-      min-height: 100svh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 24px;
-      -webkit-font-smoothing: antialiased;
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: radial-gradient(ellipse at 25% 45%, rgba(201,169,110,0.06) 0%, transparent 55%);
-      pointer-events: none;
-    }
+    body { font-family: 'Lora', Georgia, serif; background: var(--bg); color: var(--white); min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 60px 24px; -webkit-font-smoothing: antialiased; }
+    body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 25% 45%, rgba(201,169,110,0.06) 0%, transparent 55%); pointer-events: none; }
+    .container { max-width: 600px; width: 100%; text-align: center; position: relative; z-index: 1; }
+    .logo { height: 48px; width: auto; opacity: 0.65; display: block; margin: 0 auto 40px; }
+    .gold-rule { width: 48px; height: 2px; background: var(--gold); border: none; display: block; margin: 0 auto 40px; }
+    .short-rule { width: 40px; height: 1px; background: var(--gold); border: none; display: block; margin: 0 auto 28px; opacity: 0.4; }
+    .thank-heading { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(72px, 14vw, 108px); color: var(--white); line-height: 1; margin-bottom: 24px; }
+    #confirmed-amount { display: none; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; }
+    .body-copy { font-family: 'Lora', serif; font-size: 17px; line-height: 1.9; color: rgba(250,250,247,0.70); margin-bottom: 28px; }
+    .pull-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; font-size: clamp(20px, 4vw, 28px); color: var(--gold); line-height: 1.4; margin-bottom: 36px; }
 
-    .container {
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
+    /* Upgrade prompt box */
+    .upgrade-box { border: 1px solid rgba(201,169,110,0.4); border-radius: 3px; padding: 28px; margin-bottom: 36px; text-align: center; }
+    .upgrade-box h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 28px; color: var(--white); margin-bottom: 12px; }
+    .upgrade-box p { font-family: 'Lora', serif; font-size: 15px; line-height: 1.75; color: rgba(250,250,247,0.68); margin-bottom: 20px; }
+    .upgrade-btn { display: inline-block; background: var(--gold); color: #0D0D12; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 12px 28px; border-radius: 2px; text-decoration: none; transition: background 250ms; }
+    .upgrade-btn:hover { background: #E8D5A3; }
+    .no-thanks { display: block; margin-top: 12px; font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 11px; color: rgba(250,250,247,0.35); cursor: pointer; background: none; border: none; width: 100%; transition: color 0.2s; }
+    .no-thanks:hover { color: rgba(250,250,247,0.6); }
 
-    .logo {
-      height: 48px; width: auto;
-      filter: brightness(0) invert(1);
-      opacity: 0.65;
-      display: block;
-      margin: 0 auto 40px;
-    }
-
-    .gold-rule {
-      width: 48px; height: 2px;
-      background: var(--gold);
-      border: none;
-      display: block;
-      margin: 0 auto 40px;
-    }
-
-    .thank-heading {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(72px, 14vw, 108px);
-      color: var(--white);
-      line-height: 1;
-      margin-bottom: 24px;
-    }
-
-    #confirmed-amount {
-      display: none;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 32px;
-    }
-
-    .short-rule {
-      width: 40px; height: 1px;
-      background: var(--gold);
-      border: none;
-      display: block;
-      margin: 0 auto 28px;
-      opacity: 0.4;
-    }
-
-    .body-copy {
-      font-family: 'Lora', serif;
-      font-size: 17px;
-      line-height: 1.9;
-      color: rgba(255,255,255,0.70);
-      margin-bottom: 28px;
-    }
-
-    .pull-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 400;
-      font-size: clamp(20px, 4vw, 28px);
-      color: var(--gold);
-      line-height: 1.4;
-      margin-bottom: 36px;
-    }
-
-    .contact-note {
-      font-family: 'Raleway', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 40px;
-      line-height: 1.7;
-    }
-    .contact-note a {
-      color: var(--gold);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(201,169,110,0.30);
-    }
-    .contact-note a:hover { border-color: rgba(201,169,110,0.65); }
-
-    .cta-return {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 600;
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border: 1px solid rgba(201,169,110,0.45);
-      border-radius: 2px;
-      padding: 13px 32px;
-      transition: background 0.25s;
-    }
+    .contact-note { font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 11px; color: rgba(250,250,247,0.32); margin-bottom: 40px; line-height: 1.7; }
+    .contact-note a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201,169,110,0.3); }
+    .cta-return { display: inline-flex; align-items: center; gap: 8px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,169,110,0.45); border-radius: 2px; padding: 13px 32px; transition: background 0.25s; }
     .cta-return:hover { background: rgba(201,169,110,0.10); }
-
-    .footer-note {
-      margin-top: 72px;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.18);
-    }
-
-    @media (max-width: 480px) {
-      .thank-heading { font-size: 64px; }
-      .body-copy { font-size: 15px; }
-      .cta-return { padding: 12px 24px; }
-    }
+    .footer-note { margin-top: 64px; font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.16); }
+    @media (max-width: 480px) { .thank-heading { font-size: 64px; } .body-copy { font-size: 15px; } .cta-return { padding: 12px 24px; } }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <img src="../stillher-landing/images/logo-dark.svg" alt="StillHer Foundation" class="logo">
+    <!-- Inline SVG logo, white version -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" class="logo" aria-label="StillHer Foundation">
+      <g fill="#FAFAF7" transform="translate(4, 4) scale(0.85)">
+        <ellipse cx="30" cy="28" rx="7.5" ry="8.5" transform="rotate(-8, 30, 28)"/>
+        <path d="M22 36 C19 40 17 48 18 56 C18 62 20 67 22 70 C23 72 26 74 28 74 C30 74 32 73 33 71 C36 67 37 60 36 53 C37 50 38 46 37 42 C36 39 34 37 32 36 Z"/>
+        <circle cx="56" cy="17" r="9"/>
+        <path d="M46 30 C44 35 43 44 44 52 C45 58 47 63 50 66 C51 68 53 69 56 69 C59 69 61 68 62 66 C65 63 67 58 68 52 C69 44 68 35 66 30 C63 28 60 27 56 27 C52 27 49 28 46 30 Z"/>
+        <circle cx="68" cy="8" r="8.5"/>
+        <path d="M62 16 C61 19 61 24 62 28 C63 30 65 31 68 31 C71 31 73 30 74 28 C75 24 75 19 74 16 C72 15 70 15 68 15 C66 15 64 15 62 16 Z"/>
+      </g>
+      <g transform="translate(100, 0)">
+        <text x="0" y="52" font-family="'Cormorant Garamond', serif" font-weight="600" font-size="30" fill="#FAFAF7" letter-spacing="8">STILLHER</text>
+        <line x1="0" y1="62" x2="295" y2="62" stroke="#C9A96E" stroke-width="0.8"/>
+        <text x="0" y="80" font-family="'Cormorant Garamond', serif" font-weight="300" font-size="15" fill="rgba(250,250,247,0.5)" letter-spacing="9">FOUNDATION</text>
+      </g>
+    </svg>
 
     <hr class="gold-rule">
-
     <h1 class="thank-heading">Thank you.</h1>
-
     <div id="confirmed-amount"></div>
-
     <hr class="short-rule">
 
-    <p class="body-copy">
-      Your gift has been received.<br>
-      A warm message from the StillHer Foundation is on its way to your inbox.
-    </p>
-
+    <p class="body-copy">Your gift has been received. A warm message from the StillHer Foundation is on its way to your inbox.</p>
     <p class="pull-quote">She is still her. And now, so is her voice.</p>
 
-    <p class="contact-note">
-      Questions? <a href="mailto:hello@stillherfoundation.org">hello@stillherfoundation.org</a>
-    </p>
+    <!-- Upgrade prompt (hidden for monthly donors) -->
+    <div class="upgrade-box" id="upgrade-prompt">
+      <h3>One more thing.</h3>
+      <p>Want to make your gift monthly? It takes one click and you can cancel anytime. Monthly supporters make consistent production possible.</p>
+      <a href="monthly.html" class="upgrade-btn">MAKE IT MONTHLY</a>
+      <button class="no-thanks" onclick="document.getElementById('upgrade-prompt').style.display='none'">No thanks.</button>
+    </div>
+
+    <p class="contact-note">Questions? <a href="mailto:hello@stillherfoundation.org">hello@stillherfoundation.org</a></p>
 
     <a href="../stillher-landing/index.html" class="cta-return">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 5l-7 7 7 7"/>
-      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       RETURN TO DOCUMENTARY
     </a>
 
     <p class="footer-note">2025 StillHer Foundation</p>
-
   </div>
 
   <script>
-    const stripe = Stripe('pk_test_PLACEHOLDER');
+    const STRIPE_KEY = 'pk_test_PLACEHOLDER';
+    function isValidStripeKey(k) { return k && k !== 'pk_test_PLACEHOLDER' && (k.startsWith('pk_test_') || k.startsWith('pk_live_')); }
+
     const params = new URLSearchParams(window.location.search);
-    const cs = params.get('payment_intent_client_secret');
-    if (cs) {
-      stripe.retrievePaymentIntent(cs).then(({ paymentIntent }) => {
-        if (paymentIntent && paymentIntent.status === 'succeeded') {
-          const amt = (paymentIntent.amount / 100).toFixed(2);
-          const el = document.getElementById('confirmed-amount');
-          el.textContent = 'YOUR GIFT: $' + amt;
-          el.style.display = 'block';
-        }
-      }).catch(() => {});
+    const isMonthly = params.get('monthly') === 'true';
+
+    // Hide upgrade prompt for monthly donors
+    if (isMonthly) {
+      const box = document.getElementById('upgrade-prompt');
+      if (box) box.style.display = 'none';
+    }
+
+    if (isValidStripeKey(STRIPE_KEY)) {
+      const stripe = Stripe(STRIPE_KEY);
+      const cs = params.get('payment_intent_client_secret');
+      if (cs) {
+        stripe.retrievePaymentIntent(cs).then(({ paymentIntent }) => {
+          if (paymentIntent && paymentIntent.status === 'succeeded') {
+            const amt = (paymentIntent.amount / 100).toFixed(2);
+            const el = document.getElementById('confirmed-amount');
+            el.textContent = 'YOUR GIFT: $' + amt;
+            el.style.display = 'block';
+          }
+        }).catch(() => {});
+      }
     }
   </script>
 </body>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Giving - Road to Her Smile | StillHer Foundation</title>
+  <meta name="description" content="Become a monthly sustaining supporter of Road to Her Smile. Monthly gifts build the consistent funding that makes this documentary possible.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;1,400&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold: #C9A96E; --ink: #1A1A1A; --dark: #080810; --white: #FFFFFF; --muted: #AAAAAA; --border: #E2E2E2; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { font-family: 'Lora', Georgia, serif; background: var(--dark); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    .slim-nav { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: rgba(8,8,16,0.95); border-bottom: 1px solid rgba(201,169,110,0.15); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 100; backdrop-filter: blur(10px); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo svg { height: 34px; width: auto; }
+    .nav-back { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 11px; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      min-height: 60vh; padding: 120px 24px 80px;
+      background-color: #0D0D12;
+      background-image: linear-gradient(rgba(5,5,12,0.78), rgba(5,5,12,0.85)), url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1400&q=85&fit=crop&crop=top');
+      background-size: cover; background-position: center top;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .hero-kicker { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 20px; }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(44px, 7vw, 72px); color: #FFFFFF; line-height: 1.05; margin-bottom: 20px; max-width: 680px; }
+    .hero-sub { font-family: 'Lora', serif; font-style: italic; font-size: 18px; color: rgba(255,255,255,0.68); line-height: 1.7; max-width: 520px; }
+
+    /* CARD */
+    .card-section { background: var(--white); padding: 72px 24px; display: flex; justify-content: center; }
+    .card-inner { max-width: 460px; width: 100%; }
+
+    .card-header { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); padding-bottom: 18px; border-bottom: 1px solid #EBEBEB; margin-bottom: 24px; }
+    .monthly-note-top { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    .amount-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .amount-btn { height: 80px; position: relative; background: #F8F8F8; border: 1.5px solid var(--border); border-radius: 3px; cursor: pointer; transition: all 200ms ease; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+    .amount-btn:hover:not(.active) { background: #F0F0F0; border-color: #CCCCCC; }
+    .amount-btn.active { background: var(--ink); border-color: var(--ink); }
+    .amount-num { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 32px; color: var(--ink); line-height: 1; transition: color 200ms; }
+    .amount-btn.active .amount-num { color: #FFFFFF; }
+    .amount-sub { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 9px; letter-spacing: 0.1em; color: var(--muted); }
+    .amount-btn.active .amount-sub { color: var(--gold); }
+    .amount-tier { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .amount-btn.active .amount-tier { color: rgba(201,169,110,0.75); }
+    .pop-badge { position: absolute; top: 0; right: 0; background: var(--gold); color: var(--ink); font-family: 'Raleway', sans-serif; font-weight: 800; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 7px; border-radius: 0 3px 0 3px; }
+
+    .divider { height: 1px; background: #EBEBEB; border: none; margin: 16px 0; }
+
+    .field-lbl { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+    .field-inp { font-family: 'Lora', serif; font-size: 15px; color: var(--ink); background: transparent; border: none; border-bottom: 1.5px solid #DCDCDC; padding: 10px 0; outline: none; width: 100%; margin-bottom: 18px; transition: border-color 0.25s; }
+    .field-inp:focus { border-bottom-color: var(--gold); }
+    .field-inp::placeholder { font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 14px; color: #CCCCCC; }
+
+    .impact-line { font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: var(--gold); display: block; margin: -10px 0 14px; }
+
+    .payment-lbl { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 12px; }
+    #payment-element { min-height: 80px; }
+    .security-row { background: #F8F8F8; border-radius: 3px; padding: 10px 14px; margin: 14px 0; display: flex; align-items: center; gap: 8px; }
+    .security-row span { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 10px; color: var(--muted); }
+    #error-msg { display: none; font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: #C0392B; padding: 10px 0; }
+    #submit-btn { width: 100%; height: 54px; background: var(--ink); border: none; border-radius: 3px; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #FFFFFF; cursor: pointer; transition: background 250ms, color 250ms; margin-bottom: 10px; }
+    #submit-btn:hover:not(:disabled) { background: var(--gold); color: var(--ink); }
+    #submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+    .disclaimer { font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 10px; color: #BBBBBB; text-align: center; }
+
+    /* FOOTER */
+    .site-footer { background: #0A0A0F; border-top: 1px solid rgba(201,169,110,0.15); padding: 36px 56px; text-align: center; }
+    .footer-copy { font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 10px; color: #444444; }
+
+    @media (max-width: 600px) { .slim-nav { padding: 0 16px; } .hero { padding: 100px 20px 60px; } .hero-title { font-size: 44px; } .site-footer { padding: 32px 20px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="slim-nav">
+    <a href="index.html" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120">
+        <g fill="#FAFAF7" transform="translate(4, 4) scale(0.85)">
+          <ellipse cx="30" cy="28" rx="7.5" ry="8.5" transform="rotate(-8, 30, 28)"/>
+          <path d="M22 36 C19 40 17 48 18 56 C18 62 20 67 22 70 C23 72 26 74 28 74 C30 74 32 73 33 71 C36 67 37 60 36 53 C37 50 38 46 37 42 C36 39 34 37 32 36 Z"/>
+          <circle cx="56" cy="17" r="9"/>
+          <path d="M46 30 C44 35 43 44 44 52 C45 58 47 63 50 66 C51 68 53 69 56 69 C59 69 61 68 62 66 C65 63 67 58 68 52 C69 44 68 35 66 30 C63 28 60 27 56 27 C52 27 49 28 46 30 Z"/>
+          <circle cx="68" cy="8" r="8.5"/>
+          <path d="M62 16 C61 19 61 24 62 28 C63 30 65 31 68 31 C71 31 73 30 74 28 C75 24 75 19 74 16 C72 15 70 15 68 15 C66 15 64 15 62 16 Z"/>
+        </g>
+        <g transform="translate(100, 0)">
+          <text x="0" y="52" font-family="'Cormorant Garamond', serif" font-weight="600" font-size="30" fill="#FAFAF7" letter-spacing="8">STILLHER</text>
+          <line x1="0" y1="62" x2="295" y2="62" stroke="#C9A96E" stroke-width="0.8"/>
+          <text x="0" y="80" font-family="'Cormorant Garamond', serif" font-weight="300" font-size="15" fill="rgba(250,250,247,0.5)" letter-spacing="9">FOUNDATION</text>
+        </g>
+      </svg>
+    </a>
+    <a href="../stillher-landing/index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Documentary
+    </a>
+  </nav>
+
+  <section class="hero">
+    <span class="hero-kicker">Monthly Giving</span>
+    <h1 class="hero-title">Become a sustaining supporter of Road to Her Smile.</h1>
+    <p class="hero-sub">Monthly gifts are the backbone of this documentary. Consistent funding means consistent production.</p>
+  </section>
+
+  <div class="card-section">
+    <div class="card-inner">
+      <div class="card-header">YOUR MONTHLY GIFT</div>
+      <p class="monthly-note-top">Monthly gifts build consistent funding. Cancel anytime.</p>
+
+      <div class="amount-grid" id="amount-grid"></div>
+
+      <hr class="divider">
+
+      <label class="field-lbl" for="donor-name">Full Name</label>
+      <input type="text" id="donor-name" class="field-inp" placeholder="Jane Smith" autocomplete="name">
+
+      <label class="field-lbl" for="donor-email">Email Address</label>
+      <input type="email" id="donor-email" class="field-inp" placeholder="jane@example.com" autocomplete="email">
+
+      <span class="impact-line" id="impact-line">Funds one advocacy letter on behalf of Leah.</span>
+
+      <hr class="divider">
+      <span class="payment-lbl">Payment Details</span>
+      <div id="payment-element"></div>
+
+      <div class="security-row">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="6" width="9" height="6" rx="1" stroke="#AAAAAA" stroke-width="1"/><path d="M4 6V4a2.5 2.5 0 015 0v2" stroke="#AAAAAA" stroke-width="1"/></svg>
+        <span>Secured by Stripe. 256-bit SSL.</span>
+      </div>
+
+      <div id="error-msg"></div>
+      <form onsubmit="handleSubmit(event)">
+        <button type="submit" id="submit-btn" disabled>START MY MONTHLY GIFT</button>
+      </form>
+      <p class="disclaimer">Your monthly gift will renew each month. Cancel anytime.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p class="footer-copy">2025 StillHer Foundation. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const STRIPE_KEY = 'pk_test_PLACEHOLDER';
+    function isValid(k) { return k && k !== 'pk_test_PLACEHOLDER' && (k.startsWith('pk_test_') || k.startsWith('pk_live_')); }
+
+    let stripe, elements, payElement;
+    if (isValid(STRIPE_KEY)) stripe = Stripe(STRIPE_KEY);
+
+    let currentAmt = 25, initTimer = null;
+
+    const presets = [
+      { a: 10, tier: 'The Witness' },
+      { a: 25, pop: true, tier: 'The Advocate' },
+      { a: 50, tier: 'The Producer' },
+      { a: 100, tier: 'The Champion' },
+    ];
+
+    const impacts = { 10: 'Covers one day of post-production editing.', 25: 'Funds one advocacy letter on behalf of Leah.', 50: 'Covers one full interview session.', 100: 'Distribution to one major film festival.' };
+
+    function buildGrid() {
+      const grid = document.getElementById('amount-grid');
+      presets.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'amount-btn' + (p.pop ? ' active' : '');
+        btn.dataset.amount = p.a;
+        if (p.pop) currentAmt = p.a;
+        btn.onclick = () => pick(btn, p.a);
+        btn.innerHTML = `${p.pop ? '<span class="pop-badge">MOST POPULAR</span>' : ''}<span class="amount-num">$${p.a}</span><span class="amount-sub">per month</span>${p.tier ? `<span class="amount-tier">${p.tier}</span>` : ''}`;
+        grid.appendChild(btn);
+      });
+      schedule(currentAmt);
+    }
+
+    function pick(btn, amt) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); currentAmt = amt;
+      const el = document.getElementById('impact-line');
+      el.style.opacity = '0';
+      setTimeout(() => { el.textContent = impacts[amt] || 'Every dollar brings Leah closer to her smile.'; el.style.opacity = '1'; }, 180);
+      schedule(amt);
+    }
+
+    function schedule(amt) { clearTimeout(initTimer); initTimer = setTimeout(() => initStripe(amt), 500); }
+
+    async function initStripe(amt) {
+      if (!isValid(STRIPE_KEY)) {
+        document.getElementById('payment-element').innerHTML = `<div style="padding:20px;text-align:center;border:1px solid #E2E2E2;border-radius:3px;"><p style="font:400 13px 'Raleway',sans-serif;color:#888;">Payment processing coming soon. <a href="mailto:hello@stillherfoundation.org" style="color:#C9A96E;">Contact us to donate.</a></p></div>`;
+        return;
+      }
+      const btn = document.getElementById('submit-btn'); btn.disabled = true;
+      if (payElement) { payElement.unmount(); payElement = null; elements = null; }
+      try {
+        const res = await fetch('/create-payment-intent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amount: amt, donorName: document.getElementById('donor-name').value, donorEmail: document.getElementById('donor-email').value, isMonthly: true }) });
+        const data = await res.json();
+        if (data.error) return;
+        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'flat', variables: { colorPrimary: '#C9A96E', colorBackground: '#FFFFFF', colorText: '#1A1A1A', fontFamily: '"Lora",Georgia,serif', borderRadius: '0px' }, rules: { '.Input': { border: 'none', borderBottom: '1.5px solid #DCDCDC', borderRadius: '0', padding: '8px 0', backgroundColor: 'transparent', boxShadow: 'none' }, '.Input:focus': { borderBottom: '1.5px solid #C9A96E', boxShadow: 'none' }, '.Label': { fontFamily: '"Raleway",sans-serif', fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#AAAAAA', fontWeight: '600' } } } });
+        payElement = elements.create('payment');
+        payElement.mount('#payment-element');
+        payElement.on('ready', () => { btn.disabled = false; });
+      } catch {}
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      if (!isValid(STRIPE_KEY)) return;
+      const name = document.getElementById('donor-name').value.trim();
+      const email = document.getElementById('donor-email').value.trim();
+      if (!name || !email) { document.getElementById('error-msg').textContent = 'Please fill in all fields.'; document.getElementById('error-msg').style.display = 'block'; return; }
+      const btn = document.getElementById('submit-btn'); btn.disabled = true; btn.textContent = 'Processing...';
+      const { error } = await stripe.confirmPayment({ elements, confirmParams: { return_url: `${window.location.origin}/thank-you.html?monthly=true`, payment_method_data: { billing_details: { name, email } } } });
+      if (error) { document.getElementById('error-msg').textContent = error.message; document.getElementById('error-msg').style.display = 'block'; btn.disabled = false; btn.textContent = 'START MY MONTHLY GIFT'; }
+    }
+
+    document.addEventListener('DOMContentLoaded', buildGrid);
+  </script>
+</body>
+</html>
