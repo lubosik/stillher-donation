@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — StillHer Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;1,400&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --warm-dark: #1A1410;
+      --ink: #0D0D0D;
+      --cream: #F5F0E8;
+      --gold: #C9A96E;
+      --gold-light: #E8D5A3;
+      --white: #FAFAF7;
+      --muted: #9A9590;
+    }
+    html { font-size: 16px; }
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--warm-dark);
+      color: var(--white);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 40%, rgba(201,169,110,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(196,117,106,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Wordmark */
+    .wordmark {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    /* Gold top rule */
+    .rule-top {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(201,169,110,0.5) 30%, rgba(201,169,110,0.5) 70%, transparent 100%);
+      border: none;
+      display: block;
+      margin-bottom: 72px;
+    }
+
+    /* Big thank you */
+    .thank-you-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(72px, 12vw, 108px);
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 36px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Confirmed amount */
+    .confirmed-amount-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      min-height: 48px;
+    }
+    .confirmed-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    #confirmed-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    /* Short rule */
+    .rule-gold {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      border: none;
+      display: block;
+      margin: 0 auto 40px;
+      opacity: 0.6;
+    }
+
+    /* Body copy */
+    .body-copy {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.85;
+      color: rgba(250,250,247,0.75);
+      margin-bottom: 40px;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(22px, 3.5vw, 30px);
+      color: var(--gold);
+      line-height: 1.4;
+      margin-bottom: 48px;
+      padding: 0 16px;
+    }
+
+    /* Contact */
+    .contact-note {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+    .contact-note a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,169,110,0.35);
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .contact-note a:hover { color: var(--gold-light); border-color: rgba(232,213,163,0.55); }
+
+    /* CTA */
+    .cta-return {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1.5px solid rgba(201,169,110,0.5);
+      border-radius: 60px;
+      padding: 16px 36px;
+      transition: all 0.3s ease;
+    }
+    .cta-return:hover {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.08);
+    }
+    .cta-return svg { flex-shrink: 0; }
+
+    /* Bottom logo */
+    .footer-note {
+      margin-top: 80px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(154,149,144,0.5);
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 60px 20px; }
+      .thank-you-heading { font-size: clamp(60px, 15vw, 80px); }
+      .body-copy { font-size: 16px; }
+      .cta-return { padding: 14px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <span class="wordmark">StillHer Foundation</span>
+    <hr class="rule-top">
+
+    <h1 class="thank-you-heading">Thank you.</h1>
+
+    <!-- Confirmed amount (populated by JS) -->
+    <div class="confirmed-amount-row" id="amount-row" style="display:none;">
+      <span class="confirmed-label">Gift received</span>
+      <span id="confirmed-amount"></span>
+    </div>
+
+    <hr class="rule-gold">
+
+    <p class="body-copy">
+      Your gift has been received.<br>
+      A warm message from the StillHer Foundation is on its way to your inbox.
+    </p>
+
+    <p class="pull-quote">"She is still her. And now — so is her voice."</p>
+
+    <p class="contact-note">
+      If you have any questions, reach us at<br>
+      <a href="mailto:hello@stillherfoundation.org">hello@stillherfoundation.org</a>
+    </p>
+
+    <a href="../stillher-landing/index.html" class="cta-return">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Return to Documentary
+    </a>
+
+    <p class="footer-note">© 2025 StillHer Foundation</p>
+
+  </div>
+
+  <script>
+    const STRIPE_PUBLISHABLE_KEY = 'pk_test_PLACEHOLDER';
+    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+    const params = new URLSearchParams(window.location.search);
+    const clientSecret = params.get('payment_intent_client_secret');
+
+    if (clientSecret) {
+      stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+        if (paymentIntent && paymentIntent.status === 'succeeded') {
+          const amount = (paymentIntent.amount / 100).toFixed(2);
+          document.getElementById('confirmed-amount').textContent = `$${amount}`;
+          document.getElementById('amount-row').style.display = 'flex';
+        }
+      }).catch(() => {
+        // Silently fail — confirmation page still shows without the amount
+      });
+    }
+  </script>
+
+</body>
+</html>

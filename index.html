@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate — Road to Her Smile | StillHer Foundation</title>
+  <meta name="description" content="Support Road to Her Smile — the documentary about Leah Spriggs. Every gift funds production, legal advocacy, and distribution.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:         #0D0D0D;
+      --warm-dark:   #1A1410;
+      --cream:       #F5F0E8;
+      --parchment:   #EDE8DC;
+      --gold:        #C9A96E;
+      --gold-light:  #E8D5A3;
+      --rose:        #C4756A;
+      --white:       #FAFAF7;
+      --muted:       #9A9590;
+      --border:      rgba(201,169,110,0.25);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAVIGATION ──────────────────────────────── */
+    #nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 72px;
+      transition: background 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.solid {
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom-color: rgba(201,169,110,0.15);
+    }
+    .nav-wordmark {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-back {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.25s, opacity 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-back:hover { color: var(--gold-light); }
+    .nav-back svg { flex-shrink: 0; }
+
+    /* ── HERO SPLIT ──────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Left — story */
+    .hero-left {
+      position: relative;
+      background: var(--warm-dark);
+      padding: 120px 64px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-left-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(201,169,110,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(196,117,106,0.05) 0%, transparent 50%),
+        linear-gradient(160deg, #1A1410 0%, #0D0B09 60%, #1A1410 100%);
+      z-index: 0;
+    }
+    /* Decorative grain overlay */
+    .hero-left-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.18;
+    }
+    .hero-left-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+    }
+    .label-gold {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(48px, 5vw, 80px);
+      line-height: 1.06;
+      color: var(--white);
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+    }
+    .hero-rule {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      border: none;
+      display: block;
+      margin-bottom: 28px;
+      opacity: 0.7;
+    }
+    .hero-body {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.9;
+      color: rgba(250,250,247,0.72);
+      margin-bottom: 52px;
+    }
+    .hero-body p + p { margin-top: 18px; }
+
+    /* Stat row */
+    .stat-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      padding-top: 40px;
+    }
+    .stat {
+      flex: 1;
+      padding-right: 28px;
+    }
+    .stat + .stat {
+      padding-left: 28px;
+      padding-right: 28px;
+      border-left: 1px solid rgba(201,169,110,0.2);
+    }
+    .stat:last-child { padding-right: 0; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 40px;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    /* Right — form */
+    .hero-right {
+      background: var(--cream);
+      padding: 100px 64px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    .form-inner {
+      max-width: 460px;
+      width: 100%;
+    }
+    .form-section-label {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Toggle */
+    .toggle-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .toggle-btn {
+      flex: 1;
+      height: 44px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 60px;
+      border: 1.5px solid var(--parchment);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .toggle-btn.active {
+      background: var(--warm-dark);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+
+    /* Preset amounts */
+    .presets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .preset-btn {
+      position: relative;
+      padding: 20px 16px 16px;
+      background: var(--parchment);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+    }
+    .preset-btn:hover {
+      border-color: rgba(201,169,110,0.55);
+      background: #E8E3D7;
+    }
+    .preset-btn.active {
+      background: var(--warm-dark);
+      border-color: var(--gold);
+      border-width: 2px;
+    }
+    .preset-amount {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 30px;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+      transition: color 0.25s;
+    }
+    .preset-btn.active .preset-amount { color: var(--white); }
+    .preset-type {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+    .preset-btn.active .preset-type { color: rgba(250,250,247,0.55); }
+    .most-popular {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm-dark);
+      background: var(--gold);
+      padding: 3px 8px;
+      border-radius: 0 3px 0 3px;
+    }
+    .preset-btn.active .most-popular {
+      background: var(--gold);
+      color: var(--warm-dark);
+    }
+
+    /* Custom amount */
+    .custom-amount-toggle {
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .custom-amount-toggle:hover { color: var(--ink); }
+    .custom-amount-wrap {
+      display: none;
+      margin-bottom: 20px;
+    }
+    .custom-amount-wrap.visible { display: block; }
+    .custom-input-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      border-bottom: 1.5px solid var(--muted);
+      transition: border-color 0.25s;
+      padding-bottom: 8px;
+    }
+    .custom-input-row:focus-within { border-color: var(--gold); }
+    .custom-prefix {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--ink);
+      padding-right: 4px;
+    }
+    #custom-amount-input {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--ink);
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+    }
+    #custom-amount-input::placeholder { color: var(--muted); }
+
+    /* Form divider */
+    .form-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(201,169,110,0.3);
+      border: none;
+      display: block;
+      margin: 24px 0;
+    }
+
+    /* Donor fields */
+    .donor-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+    .field-group { display: flex; flex-direction: column; gap: 8px; }
+    .field-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field-input {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--ink);
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--muted);
+      outline: none;
+      padding-bottom: 10px;
+      transition: border-color 0.25s;
+      width: 100%;
+    }
+    .field-input:focus { border-bottom-color: var(--gold); }
+    .field-input::placeholder { color: rgba(154,149,144,0.55); }
+
+    /* Impact message */
+    .impact-msg {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--rose);
+      line-height: 1.6;
+      min-height: 22px;
+      margin-bottom: 4px;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Payment element container */
+    #payment-element-wrap {
+      margin-bottom: 16px;
+    }
+    #payment-element { min-height: 120px; }
+
+    /* Security row */
+    .security-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .security-row span {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .security-row svg { flex-shrink: 0; }
+
+    /* Error */
+    #error-message {
+      display: none;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--rose);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    /* Submit button */
+    #submit-btn {
+      width: 100%;
+      height: 64px;
+      background: var(--warm-dark);
+      border: 2px solid var(--warm-dark);
+      border-radius: 60px;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    #submit-btn:hover:not(:disabled) {
+      background: #2A2018;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
+    }
+    #submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    #submit-btn.loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(201,169,110,0.12) 50%, transparent 100%);
+      animation: shimmer 1.4s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .legal-text {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* ── TRUST STRIP ─────────────────────────────── */
+    #trust {
+      background: var(--parchment);
+      padding: 72px 56px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .trust-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+    .trust-item {
+      flex: 1;
+      text-align: center;
+      padding: 0 40px;
+    }
+    .trust-item + .trust-item {
+      border-left: 1px solid var(--border);
+    }
+    .trust-num {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 44px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .trust-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .trust-icon { margin-bottom: 12px; display: block; }
+    .trust-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* ── STORY SECTION ───────────────────────────── */
+    #story {
+      background: var(--warm-dark);
+      padding: 120px 56px;
+    }
+    .story-grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 96px;
+      align-items: center;
+    }
+    .story-label {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .story-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(40px, 4.2vw, 60px);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 36px;
+    }
+    .story-body {
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.9;
+      color: rgba(250,250,247,0.72);
+    }
+    .story-body p + p { margin-top: 20px; }
+    .pull-quote-wrap {
+      border-left: 2px solid rgba(201,169,110,0.35);
+      padding-left: 36px;
+    }
+    .pull-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(28px, 2.8vw, 40px);
+      color: var(--gold);
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+    .pull-attr {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(201,169,110,0.2);
+      padding: 64px 56px 40px;
+    }
+    .footer-grid {
+      max-width: 1180px;
+      margin: 0 auto 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .footer-wordmark {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--white);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .footer-tagline {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(250,250,247,0.38);
+      line-height: 1.7;
+    }
+    .footer-right { text-align: right; }
+    .footer-link {
+      display: block;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      color: rgba(250,250,247,0.45);
+      text-decoration: none;
+      transition: color 0.25s;
+      margin-bottom: 8px;
+    }
+    .footer-link:hover { color: var(--gold); }
+    .social-row {
+      display: flex;
+      gap: 16px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    .social-row a { color: rgba(250,250,247,0.3); transition: color 0.25s; }
+    .social-row a:hover { color: var(--gold); }
+    .footer-bottom {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.8;
+    }
+    .footer-bottom a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+    .footer-bottom a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 1100px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 120px 48px 80px; min-height: 60vh; justify-content: flex-end; }
+      .hero-right { padding: 72px 48px 80px; }
+      .form-inner { max-width: 100%; }
+      .story-grid { grid-template-columns: 1fr; gap: 64px; }
+      .pull-quote-wrap { border-left: none; padding-left: 0; border-top: 2px solid rgba(201,169,110,0.35); padding-top: 36px; }
+    }
+    @media (max-width: 768px) {
+      #nav { padding: 0 24px; }
+      .nav-wordmark { font-size: 11px; letter-spacing: 0.16em; }
+      .hero-left { padding: 100px 28px 60px; }
+      .hero-right { padding: 56px 28px 60px; }
+      .donor-fields { grid-template-columns: 1fr; gap: 20px; }
+      #trust { padding: 56px 28px; }
+      .trust-inner { flex-direction: column; gap: 40px; }
+      .trust-item { padding: 0; border-left: none; border-top: 1px solid var(--border); padding-top: 32px; }
+      .trust-item:first-child { border-top: none; padding-top: 0; }
+      #story { padding: 80px 28px; }
+      footer { padding: 48px 28px 32px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-right { text-align: left; }
+      .social-row { justify-content: flex-start; }
+    }
+    @media (max-width: 480px) {
+      #nav { padding: 0 20px; height: 64px; }
+      .hero-left { padding: 88px 20px 52px; }
+      .hero-right { padding: 44px 20px 52px; }
+      .stat-row { flex-direction: column; gap: 24px; border-top: none; padding-top: 32px; }
+      .stat + .stat { border-left: none; padding-left: 0; border-top: 1px solid rgba(201,169,110,0.2); padding-top: 24px; }
+      .presets-grid { gap: 8px; }
+      .preset-btn { padding: 16px 12px 14px; }
+      .preset-amount { font-size: 26px; }
+      #trust { padding: 48px 20px; }
+      #story { padding: 64px 20px; }
+      footer { padding: 40px 20px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav id="nav">
+    <a href="index.html" class="nav-wordmark">StillHer Foundation</a>
+    <a href="../stillher-landing/index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Back to Documentary
+    </a>
+  </nav>
+
+  <!-- ═══ HERO SPLIT ═══ -->
+  <section id="hero">
+
+    <!-- Left: Story -->
+    <div class="hero-left">
+      <div class="hero-left-bg"></div>
+      <div class="hero-left-inner">
+        <span class="label-gold">Road to Her Smile</span>
+        <h1 class="hero-title">Help us tell<br>this story.</h1>
+        <hr class="hero-rule">
+        <div class="hero-body">
+          <p>Leah Spriggs left Italy for a promise of love. She was failed by a husband, a doctor, and a church. She was left toothless. Without answers. Without recourse.</p>
+          <p>Road to Her Smile is her story — and your chance to make sure the world finally hears it.</p>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">of donations fund the documentary directly</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">$0</span>
+            <span class="stat-label">administrative overhead from your gift</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">1</span>
+            <span class="stat-label">woman's dignity we are fighting to restore</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Donation Form -->
+    <div class="hero-right">
+      <div class="form-inner">
+
+        <span class="form-section-label">Your Gift</span>
+
+        <!-- One-time / Monthly toggle -->
+        <div class="toggle-wrap">
+          <button class="toggle-btn active" id="toggle-onetime" onclick="setFrequency('onetime')">One-time</button>
+          <button class="toggle-btn" id="toggle-monthly" onclick="setFrequency('monthly')">Monthly</button>
+        </div>
+
+        <!-- Preset amounts -->
+        <div class="presets-grid" id="presets-grid">
+          <button class="preset-btn" data-amount="25" onclick="selectPreset(this)">
+            <span class="preset-amount">$25</span>
+            <span class="preset-type" id="preset-type-label">one-time gift</span>
+          </button>
+          <button class="preset-btn active" data-amount="50" onclick="selectPreset(this)">
+            <span class="most-popular">Most Popular</span>
+            <span class="preset-amount">$50</span>
+            <span class="preset-type" id="preset-type-label">one-time gift</span>
+          </button>
+          <button class="preset-btn" data-amount="100" onclick="selectPreset(this)">
+            <span class="preset-amount">$100</span>
+            <span class="preset-type" id="preset-type-label">one-time gift</span>
+          </button>
+          <button class="preset-btn" data-amount="250" onclick="selectPreset(this)">
+            <span class="preset-amount">$250</span>
+            <span class="preset-type" id="preset-type-label">one-time gift</span>
+          </button>
+        </div>
+
+        <!-- Custom amount -->
+        <span class="custom-amount-toggle" id="custom-toggle" onclick="toggleCustomAmount()">Enter a different amount</span>
+        <div class="custom-amount-wrap" id="custom-wrap">
+          <div class="custom-input-row">
+            <span class="custom-prefix">$</span>
+            <input
+              type="number"
+              id="custom-amount-input"
+              placeholder="0.00"
+              min="1"
+              step="1"
+              oninput="onCustomAmountInput(this.value)"
+            >
+          </div>
+        </div>
+
+        <hr class="form-divider">
+
+        <!-- Donor fields -->
+        <div class="donor-fields">
+          <div class="field-group">
+            <label class="field-label" for="donor-name">Full Name</label>
+            <input type="text" id="donor-name" class="field-input" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="donor-email">Email Address</label>
+            <input type="email" id="donor-email" class="field-input" placeholder="jane@example.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <!-- Impact message -->
+        <p class="impact-msg" id="impact-msg">Your gift funds one interview session with Leah.</p>
+
+        <hr class="form-divider">
+
+        <!-- Payment element -->
+        <span class="form-section-label" style="margin-bottom:16px;">Payment Details</span>
+        <div id="payment-element-wrap">
+          <div id="payment-element"></div>
+        </div>
+
+        <!-- Security note -->
+        <div class="security-row">
+          <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.5 1L1 3.5V7c0 3.03 2.33 5.84 5.5 6.5C9.67 12.84 12 10.03 12 7V3.5L6.5 1Z" stroke="#9A9590" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.5 7l1.5 1.5 2.5-2.5" stroke="#9A9590" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Secured by Stripe — 256-bit SSL encryption</span>
+        </div>
+
+        <!-- Error -->
+        <div id="error-message"></div>
+
+        <!-- Submit -->
+        <form id="donate-form">
+          <button type="submit" id="submit-btn" disabled>Complete Your Gift</button>
+        </form>
+
+        <p class="legal-text">By donating, you agree to our terms. Your gift is non-refundable and goes directly to Road to Her Smile production and advocacy.</p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TRUST STRIP ═══ -->
+  <section id="trust">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <span class="trust-num">100%</span>
+        <span class="trust-label">of your gift funds the documentary</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 3L4 9.5V18c0 7.7 5.93 14.84 14 16.5C26.07 32.84 32 25.7 32 18V9.5L18 3Z" stroke="#C9A96E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 18l4 4 8-8" stroke="#C9A96E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="trust-label">Stripe-secured payment</span>
+      </div>
+      <div class="trust-item">
+        <p class="trust-quote">"Every contribution<br>is an act of restoration."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STORY SECTION ═══ -->
+  <section id="story">
+    <div class="story-grid">
+      <div>
+        <span class="story-label">Why It Matters</span>
+        <h2 class="story-heading">This is bigger<br>than teeth.</h2>
+        <div class="story-body">
+          <p>Leah Spriggs trusted a doctor referred to her by her church. She went to Johns Hopkins. Thirteen teeth were extracted. When she returned, the doctor had disappeared — no follow-up, no implants, no answers. Left toothless, indefinitely, her body then developed an autoimmune disease.</p>
+          <p>She returned to the church. They gave her a $25 grocery gift card. Days later, from the pulpit: a $7.2 million renovation announcement. This documentary names what happened. It demands accountability. And it begins the long road to Leah getting her smile — and her dignity — back.</p>
+        </div>
+      </div>
+      <div class="pull-quote-wrap">
+        <p class="pull-quote">"She was not asking for luxury. She was asking for her dignity."</p>
+        <span class="pull-attr">— StillHer Foundation</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <span class="footer-wordmark">StillHer Foundation</span>
+        <p class="footer-tagline">Restoring dignity. One story at a time.</p>
+      </div>
+      <div class="footer-right">
+        <a href="https://stillherfoundation.org" class="footer-link">stillherfoundation.org</a>
+        <a href="mailto:hello@stillherfoundation.org" class="footer-link">hello@stillherfoundation.org</a>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="X / Twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 StillHer Foundation. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Privacy Policy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── CONFIG ──────────────────────────────────────────
+    const STRIPE_PUBLISHABLE_KEY = 'pk_test_PLACEHOLDER';
+    // Replace with your real publishable key before going live.
+
+    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+    let elements = null;
+    let paymentElement = null;
+    let currentAmount = 50;
+    let isMonthly = false;
+    let initDebounceTimer = null;
+    let isInitializing = false;
+
+    // ── PRESET DATA ──────────────────────────────────────
+    const presetData = {
+      onetime: [
+        { amount: 25, popular: false },
+        { amount: 50, popular: true },
+        { amount: 100, popular: false },
+        { amount: 250, popular: false },
+      ],
+      monthly: [
+        { amount: 10, popular: false },
+        { amount: 25, popular: true },
+        { amount: 50, popular: false },
+        { amount: 100, popular: false },
+      ],
+    };
+
+    const impactMessages = {
+      10:  'Your gift covers one day of post-production editing.',
+      25:  'Your gift covers the legal filing for one advocacy letter.',
+      50:  'Your gift funds one interview session with Leah.',
+      100: 'Your gift covers distribution to one major film festival.',
+      250: 'Your gift underwrites one full week of production.',
+    };
+
+    // ── NAV SCROLL ───────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('solid', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── FREQUENCY TOGGLE ─────────────────────────────────
+    function setFrequency(freq) {
+      isMonthly = freq === 'monthly';
+      document.getElementById('toggle-onetime').classList.toggle('active', !isMonthly);
+      document.getElementById('toggle-monthly').classList.toggle('active', isMonthly);
+      rebuildPresets();
+    }
+
+    function rebuildPresets() {
+      const grid = document.getElementById('presets-grid');
+      const key = isMonthly ? 'monthly' : 'onetime';
+      const typeLabel = isMonthly ? 'monthly gift' : 'one-time gift';
+      const data = presetData[key];
+
+      grid.innerHTML = '';
+      let defaultSelected = false;
+
+      data.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'preset-btn';
+        btn.dataset.amount = item.amount;
+        btn.onclick = function() { selectPreset(this); };
+
+        // Default: select the popular one (index 1)
+        if (item.popular) {
+          btn.classList.add('active');
+          currentAmount = item.amount;
+          defaultSelected = true;
+        }
+
+        btn.innerHTML = `
+          ${item.popular ? '<span class="most-popular">Most Popular</span>' : ''}
+          <span class="preset-amount">$${item.amount}</span>
+          <span class="preset-type">${typeLabel}</span>
+        `;
+        grid.appendChild(btn);
+      });
+
+      if (!defaultSelected && data.length > 0) {
+        grid.firstChild.classList.add('active');
+        currentAmount = data[0].amount;
+      }
+
+      // Clear custom if open
+      document.getElementById('custom-amount-input').value = '';
+      document.getElementById('custom-wrap').classList.remove('visible');
+
+      updateImpactMessage(currentAmount);
+      scheduleReinit(currentAmount);
+    }
+
+    // ── AMOUNT SELECTION ─────────────────────────────────
+    function selectPreset(btn) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentAmount = parseFloat(btn.dataset.amount);
+      // Clear custom input
+      document.getElementById('custom-amount-input').value = '';
+      document.getElementById('custom-wrap').classList.remove('visible');
+      updateImpactMessage(currentAmount);
+      scheduleReinit(currentAmount);
+    }
+
+    function toggleCustomAmount() {
+      const wrap = document.getElementById('custom-wrap');
+      wrap.classList.toggle('visible');
+      if (wrap.classList.contains('visible')) {
+        document.getElementById('custom-amount-input').focus();
+        // Deselect presets
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      }
+    }
+
+    function onCustomAmountInput(val) {
+      const amount = parseFloat(val);
+      if (!amount || amount < 1) return;
+      currentAmount = amount;
+      // Deselect presets
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('impact-msg').textContent = 'Every dollar brings Leah\'s road to her smile closer.';
+      scheduleReinit(amount);
+    }
+
+    function updateImpactMessage(amount) {
+      const msg = impactMessages[amount] || 'Every dollar brings Leah\'s road to her smile closer.';
+      const el = document.getElementById('impact-msg');
+      el.style.opacity = '0';
+      setTimeout(() => { el.textContent = msg; el.style.opacity = '1'; }, 180);
+    }
+
+    // ── STRIPE INITIALIZATION ────────────────────────────
+    function scheduleReinit(amount) {
+      clearTimeout(initDebounceTimer);
+      initDebounceTimer = setTimeout(() => initStripe(amount), 500);
+    }
+
+    async function initStripe(amount) {
+      if (isInitializing) return;
+      isInitializing = true;
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+
+      // Unmount existing payment element
+      if (paymentElement) {
+        paymentElement.unmount();
+        paymentElement = null;
+        elements = null;
+      }
+
+      try {
+        const res = await fetch('/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount,
+            donorName: document.getElementById('donor-name').value,
+            donorEmail: document.getElementById('donor-email').value,
+            isMonthly,
+          }),
+        });
+
+        const data = await res.json();
+        if (data.error) { showError(data.error); return; }
+
+        elements = stripe.elements({
+          clientSecret: data.clientSecret,
+          appearance: {
+            theme: 'stripe',
+            variables: {
+              colorPrimary: '#C9A96E',
+              colorBackground: '#F5F0E8',
+              colorText: '#1A1410',
+              colorDanger: '#C4756A',
+              fontFamily: 'Lora, serif',
+              spacingUnit: '6px',
+              borderRadius: '2px',
+            },
+            rules: {
+              '.Input': {
+                border: 'none',
+                borderBottom: '1px solid #9A9590',
+                borderRadius: '0',
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+                padding: '12px 0',
+              },
+              '.Input:focus': {
+                borderBottom: '1px solid #C9A96E',
+                boxShadow: 'none',
+                outline: 'none',
+              },
+              '.Label': {
+                fontFamily: 'Raleway, sans-serif',
+                fontSize: '10px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                color: '#9A9590',
+              },
+              '.Error': {
+                fontFamily: 'Lora, serif',
+                fontStyle: 'italic',
+                color: '#C4756A',
+              },
+            },
+          },
+        });
+
+        paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+        paymentElement.on('ready', () => { btn.disabled = false; });
+
+      } catch (err) {
+        showError('Unable to load payment form. Please refresh and try again.');
+        console.error(err);
+      } finally {
+        isInitializing = false;
+      }
+    }
+
+    // ── FORM SUBMISSION ──────────────────────────────────
+    document.getElementById('donate-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('donor-name').value.trim();
+      const email = document.getElementById('donor-email').value.trim();
+
+      if (!name) { showError('Please enter your full name.'); return; }
+      if (!email || !email.includes('@')) { showError('Please enter a valid email address.'); return; }
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      btn.classList.add('loading');
+      hideError();
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/thank-you.html`,
+          payment_method_data: {
+            billing_details: { name, email },
+          },
+        },
+      });
+
+      if (error) {
+        showError(error.message);
+        btn.disabled = false;
+        btn.textContent = 'Complete Your Gift';
+        btn.classList.remove('loading');
+      }
+      // If no error, Stripe redirects to return_url
+    });
+
+    function showError(msg) {
+      const el = document.getElementById('error-message');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+    function hideError() {
+      document.getElementById('error-message').style.display = 'none';
+    }
+
+    // ── INIT ON LOAD ─────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      initStripe(50);
+    });
+  </script>
+
+</body>
+</html>
