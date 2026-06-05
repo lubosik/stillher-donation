@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Donate - Road to Her Smile | StillHer Foundation</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.svg">
   <meta name="description" content="Support Road to Her Smile, a documentary about Leah Spriggs. Your gift funds production, advocacy, and distribution of this StillHer Foundation film.">
   <meta property="og:title" content="Donate - Road to Her Smile | StillHer Foundation">
   <meta property="og:description" content="Help us tell the story the world needs to hear. Every gift goes directly to Road to Her Smile production and advocacy.">
@@ -145,7 +147,7 @@
     .trust-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; color: var(--ink); line-height: 1.4; }
 
     /* ── WHY IT MATTERS ── */
-    .why-section { background: #080810; padding: 110px 56px; }
+    .why-section { background: #0D0D12; padding: 110px 56px; }
     .why-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 3fr 2fr; gap: 80px; align-items: center; }
     .why-label { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 20px; }
     .why-heading { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(36px, 4vw, 56px); color: #FFFFFF; line-height: 1.1; margin-bottom: 32px; }
@@ -170,24 +172,63 @@
     .footer-copy-row { max-width: 1100px; margin: 24px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04); font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 10px; color: #444444; text-align: center; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) { .slim-nav { padding: 0 24px; } .hero-headline { font-size: 58px; } .hero-left-copy { left: 36px; right: 24px; } .hero-right { padding: 40px 32px; } .trust-col { padding: 0 20px; } }
-    @media (max-width: 768px) {
-      .hero-band { flex-direction: column; min-height: auto; }
-      .hero-left { width: 100%; min-height: 45vh; }
-      .hero-headline { font-size: 52px; } .hero-body { display: none; }
-      .hero-right { width: 100%; box-shadow: none; border-top: 1px solid #EBEBEB; padding: 36px 24px; justify-content: flex-start; }
-      .trust-inner { flex-direction: column; gap: 28px; }
-      .trust-col + .trust-col { border-left: none; border-top: 1px solid #E5E5E5; padding-top: 28px; }
-      .why-section { padding: 80px 24px; } .why-grid { grid-template-columns: 1fr; gap: 48px; }
-      .pull-wrap { border-left: none; padding-left: 0; border-top: 2px solid rgba(201,169,110,0.3); padding-top: 32px; }
-      .site-footer { padding: 48px 24px; } .footer-main { flex-direction: column; gap: 24px; }
-      .footer-right { text-align: left; } .footer-socials { justify-content: flex-start; }
+
+    /* Tablet */
+    @media (max-width: 900px) {
+      .slim-nav { padding: 0 24px; }
+      .hero-headline { font-size: 58px; }
+      .hero-left-copy { left: 36px; right: 24px; }
+      .hero-right { padding: 40px 32px; }
+      .trust-col { padding: 0 20px; }
+      .why-section { padding: 90px 40px; }
     }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .slim-nav { padding: 0 20px; height: 56px; }
+      .hero-band { flex-direction: column; min-height: auto; }
+      .hero-left { width: 100%; min-height: 50vh; }
+      .hero-left-copy { left: 24px; right: 20px; bottom: 32px; }
+      .hero-headline { font-size: 50px; line-height: 0.95; }
+      .hero-body { display: none; }
+      .hero-kicker { font-size: 9px; margin-bottom: 12px; }
+      .hero-right { width: 100%; box-shadow: none; border-top: 1px solid #EBEBEB; padding: 32px 24px; justify-content: flex-start; }
+      .form-inner { max-width: 100%; }
+      .trust-strip { padding: 28px 0; }
+      .trust-inner { flex-direction: column; gap: 0; padding: 0 24px; }
+      .trust-col { padding: 20px 0; }
+      .trust-col + .trust-col { border-left: none; border-top: 1px solid #E5E5E5; }
+      .trust-big { font-size: 40px; }
+      .why-section { padding: 80px 24px; }
+      .why-grid { grid-template-columns: 1fr; gap: 48px; }
+      .pull-wrap { border-left: none; padding-left: 0; border-top: 2px solid rgba(201,169,110,0.3); padding-top: 32px; }
+      .site-footer { padding: 48px 24px; }
+      .footer-main { flex-direction: column; gap: 24px; }
+      .footer-right { text-align: left; }
+      .footer-socials { justify-content: flex-start; }
+      .amount-grid { gap: 8px; }
+      .amount-btn { height: 64px; }
+      .amount-num { font-size: 26px; }
+      .freq-btn { font-size: 9px; }
+    }
+
+    /* Small phone */
     @media (max-width: 480px) {
-      .slim-nav { padding: 0 16px; } .hero-headline { font-size: 44px; }
-      .hero-left-copy { left: 20px; right: 16px; bottom: 36px; }
-      .hero-right { padding: 28px 20px; } #submit-btn { height: 52px; }
-      .why-section { padding: 64px 20px; } .site-footer { padding: 40px 20px; }
+      .slim-nav { padding: 0 16px; height: 52px; }
+      .hero-left { min-height: 44vh; }
+      .hero-headline { font-size: 40px; }
+      .hero-left-copy { left: 16px; right: 12px; bottom: 24px; }
+      .hero-right { padding: 24px 16px; }
+      .card-header { font-size: 10px; letter-spacing: 0.22em; }
+      #submit-btn { height: 50px; font-size: 10px; letter-spacing: 0.18em; }
+      .why-section { padding: 64px 16px; }
+      .why-heading { font-size: clamp(28px, 7vw, 40px); }
+      .why-body { font-size: 15px; }
+      .site-footer { padding: 36px 16px; }
+      .trust-inner { padding: 0 16px; }
+      .trust-big { font-size: 36px; }
+      .trust-quote { font-size: 16px; }
+      .pull-q { font-size: clamp(20px, 5vw, 28px); }
     }
   </style>
 </head>
