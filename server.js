@@ -119,9 +119,9 @@ async function sendDonationThankYouEmail({ to, donorName, amount, currency, paym
             <td style="background-color:#FAFAF7;padding:56px 48px;">
               <p style="margin:0 0 8px;color:#9A9590;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;">A message from the Foundation</p>
               <h2 style="margin:0 0 32px;color:#1A1410;font-family:Georgia,serif;font-size:32px;font-weight:400;font-style:italic;line-height:1.3;">${firstName}, thank you.</h2>
-              <p style="margin:0 0 20px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">Because of you, Leah's road to her smile gets a little closer today.</p>
+              <p style="margin:0 0 20px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">Because of you, Lia's road to her smile gets a little closer today.</p>
               <p style="margin:0 0 20px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">Your ${givingType} gift of <strong>${formattedAmount}</strong> goes directly toward the production, legal advocacy, and distribution of <em>Road to Her Smile</em> — a documentary that has never been more necessary.</p>
-              <p style="margin:0 0 20px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">Leah's story is one of extraordinary resilience. An immigrant mother who left everything behind for a promise of love, who was failed by a husband, a doctor, and an institution she trusted — and who still chose to stand. Your support means that story will finally be heard.</p>
+              <p style="margin:0 0 20px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">Lia's story is one of extraordinary resilience. An immigrant mother who left everything behind for a promise of love, who was failed by a husband, a doctor, and an institution she trusted — and who still chose to stand. Your support means that story will finally be heard.</p>
               <p style="margin:0 0 40px;color:#3A3530;font-family:Georgia,serif;font-size:17px;line-height:1.8;">She is still her. And because of you — so is her voice.</p>
               <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(201,169,110,0.4);border-radius:4px;margin-bottom:40px;">
                 <tr>

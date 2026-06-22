@@ -125,7 +125,7 @@
       <label class="field-lbl" for="donor-email">Email Address</label>
       <input type="email" id="donor-email" class="field-inp" placeholder="jane@example.com" autocomplete="email">
 
-      <span class="impact-line" id="impact-line">Funds one advocacy letter on behalf of Leah.</span>
+      <span class="impact-line" id="impact-line">Funds one advocacy letter on behalf of Lia.</span>
 
       <hr class="divider">
       <span class="payment-lbl">Payment Details</span>
@@ -145,7 +145,7 @@
   </div>
 
   <footer class="site-footer">
-    <p class="footer-copy">2025 StillHer Foundation. All rights reserved.</p>
+    <p class="footer-copy">2026 StillHer Foundation. All rights reserved.</p>
   </footer>
 
   <script>
@@ -158,13 +158,13 @@
     let currentAmt = 25, initTimer = null;
 
     const presets = [
-      { a: 10, tier: 'The Witness' },
-      { a: 25, pop: true, tier: 'The Advocate' },
-      { a: 50, tier: 'The Producer' },
-      { a: 100, tier: 'The Champion' },
+      { a: 10, tier: 'Bronze' },
+      { a: 25, pop: true, tier: 'Silver' },
+      { a: 50, tier: 'Gold' },
+      { a: 100, tier: 'Platinum' },
     ];
 
-    const impacts = { 10: 'Covers one day of post-production editing.', 25: 'Funds one advocacy letter on behalf of Leah.', 50: 'Covers one full interview session.', 100: 'Distribution to one major film festival.' };
+    const impacts = { 10: 'Funds one advocacy letter on behalf of Lia.', 25: "Funds a portion of the documentary's research and production.", 50: 'Funds a screening or community outreach event.', 100: "Funds a meaningful portion of Lia's medical restoration costs." };
 
     function buildGrid() {
       const grid = document.getElementById('amount-grid');
@@ -185,7 +185,7 @@
       btn.classList.add('active'); currentAmt = amt;
       const el = document.getElementById('impact-line');
       el.style.opacity = '0';
-      setTimeout(() => { el.textContent = impacts[amt] || 'Every dollar brings Leah closer to her smile.'; el.style.opacity = '1'; }, 180);
+      setTimeout(() => { el.textContent = impacts[amt] || 'Every dollar brings Lia closer to her smile.'; el.style.opacity = '1'; }, 180);
       schedule(amt);
     }
 

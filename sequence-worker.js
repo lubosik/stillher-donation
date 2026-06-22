@@ -34,8 +34,8 @@ async function sendDay3(donor) {
     <h2 style="color:#1A1410;font-size:28px;font-weight:400;font-style:italic;margin:0 0 28px;">Three days ago, you did something meaningful.</h2>
     <p style="color:#3A3530;font-size:17px;line-height:1.8;margin:0 0 18px;">Your gift is already at work. Here is what the production is focused on right now:</p>
     <ol style="color:#3A3530;font-size:16px;line-height:1.9;padding-left:20px;">
-      <li style="margin-bottom:12px;">Documenting Leah's story in her own words, at her own pace. The first interviews begin this month.</li>
-      <li style="margin-bottom:12px;">Researching the institutional record: the church, the hospital, the doctor who disappeared.</li>
+      <li style="margin-bottom:12px;">Documenting Lia's story in her own words, at her own pace. The first interviews begin this month.</li>
+      <li style="margin-bottom:12px;">Researching the institutional record: the community, the hospital, the doctor who disappeared.</li>
       <li style="margin-bottom:12px;">Building the legal and advocacy framework that will give this documentary its accountability edge.</li>
     </ol>
     <p style="color:#3A3530;font-size:17px;line-height:1.8;margin:24px 0;">None of this is possible without you. Thank you for staying with us.</p>
@@ -53,16 +53,16 @@ async function sendDay14(donor) {
   await resend.emails.send({
     from: `StillHer Foundation <${process.env.FOUNDATION_EMAIL || 'hello@stillherfoundation.org'}>`,
     to: donor.email,
-    subject: `Leah wanted to say something to you`,
+    subject: `Lia wanted to say something to you`,
     html: `<!DOCTYPE html><html><body style="font-family:Georgia,serif;background:#F5F0E8;margin:0;padding:40px 20px;">
 <div style="max-width:600px;margin:0 auto;background:#FAFAF7;border-radius:4px;overflow:hidden;">
   <div style="background:#1A1410;padding:36px 48px;text-align:center;">
     <p style="color:#C9A96E;font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;margin:0 0 12px;">StillHer Foundation</p>
-    <h1 style="color:#FAFAF7;font-size:26px;font-weight:400;font-style:italic;margin:0;">A message from Leah</h1>
+    <h1 style="color:#FAFAF7;font-size:26px;font-weight:400;font-style:italic;margin:0;">A message from Lia</h1>
   </div>
   <div style="padding:48px;">
     <h2 style="color:#1A1410;font-size:28px;font-weight:400;font-style:italic;margin:0 0 28px;">"I did not think anyone would care."</h2>
-    <p style="color:#3A3530;font-size:17px;line-height:1.9;margin:0 0 18px;">That is what Leah told us when she first heard that people were donating to tell her story. She has been failed so many times that trust does not come easily anymore.</p>
+    <p style="color:#3A3530;font-size:17px;line-height:1.9;margin:0 0 18px;">That is what Lia told us when she first heard that people were donating to tell her story. She has been failed so many times that trust does not come easily anymore.</p>
     <p style="color:#3A3530;font-size:17px;line-height:1.9;margin:0 0 18px;">But you proved something to her. When people who have never met her, who owe her nothing, choose to stand with her, it changes something in a person.</p>
     <p style="color:#C9A96E;font-size:22px;font-style:italic;line-height:1.5;margin:28px 0;padding-left:20px;border-left:2px solid #C9A96E;">"Tell them I am still standing. And now I know I am not standing alone."</p>
     <p style="color:#3A3530;font-size:17px;line-height:1.9;margin:0 0 20px;">If you have been considering a monthly gift, now is the time. Monthly supporters make consistent production possible.</p>
