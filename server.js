@@ -56,7 +56,7 @@ app.post(
 app.use(express.json());
 
 app.post('/create-payment-intent', async (req, res) => {
-  const { amount, donorName, donorEmail, isMonthly } = req.body;
+  const { amount, donorName, donorEmail, isMonthly, bracketTier } = req.body;
 
   if (!amount || amount < 1) {
     return res.status(400).json({ error: 'Invalid donation amount.' });
@@ -67,11 +67,12 @@ app.post('/create-payment-intent', async (req, res) => {
       amount: Math.round(amount * 100),
       currency: 'usd',
       receipt_email: donorEmail || undefined,
-      description: `${process.env.DONATION_PRODUCT_NAME} — ${isMonthly ? 'Monthly' : 'One-time'} donation`,
+      description: `${process.env.DONATION_PRODUCT_NAME} — One-time donation`,
       metadata: {
         donor_name: donorName || 'Anonymous',
         donor_email: donorEmail || '',
-        is_monthly: isMonthly ? 'true' : 'false',
+        is_monthly: 'false',
+        bracket_tier: bracketTier || 'Custom',
         product: process.env.DONATION_PRODUCT_NAME,
       },
       automatic_payment_methods: { enabled: true },
@@ -82,6 +83,22 @@ app.post('/create-payment-intent', async (req, res) => {
     console.error('PaymentIntent creation error:', err.message);
     res.status(500).json({ error: err.message });
   }
+});
+
+app.post('/api/inkind', (req, res) => {
+  const { category, description, name, email, phone } = req.body;
+  const entry = { category, description, name, email, phone, timestamp: new Date().toISOString() };
+  console.log('In-kind submission received:', JSON.stringify(entry));
+  const fs = require('fs');
+  const filePath = path.join(__dirname, 'data', 'inkind-submissions.json');
+  try {
+    const existing = fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf8')) : [];
+    existing.push(entry);
+    fs.writeFileSync(filePath, JSON.stringify(existing, null, 2));
+  } catch (e) {
+    console.error('Failed to save in-kind submission to file:', e.message);
+  }
+  res.json({ success: true });
 });
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
