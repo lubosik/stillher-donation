@@ -44,8 +44,15 @@
     .nav-back:hover { color: var(--gold); }
 
     .hero-band { display: flex; width: 100%; min-height: calc(100vh - 60px); margin-top: 60px; }
-    .hero-left { width: 55%; position: sticky; top: 60px; height: calc(100vh - 60px); overflow: hidden; background-color: #0D0D12; background-image: linear-gradient(to bottom, rgba(5,5,12,0.28) 0%, rgba(5,5,12,0.10) 45%, rgba(5,5,12,0.78) 100%), url('lia-hero.png'); background-size: cover; background-position: center center; flex-shrink: 0; flex-grow: 0; }
-    .hero-left-copy { position: absolute; top: 50%; left: 52px; right: 40px; transform: translateY(-50%); }
+    .hero-left { width: 55%; position: sticky; top: 60px; height: calc(100vh - 60px); overflow: hidden; background-color: #0D0D12; flex-shrink: 0; flex-grow: 0; display: flex; flex-direction: column; }
+    .hero-split { display: flex; flex: 1; position: relative; }
+    .hero-split-before, .hero-split-after { flex: 1; position: relative; overflow: hidden; }
+    .hero-split-before { background: url('lia-hero.png') center center / cover no-repeat; }
+    .hero-split-after { background: url('lia-after.jpg') center top / cover no-repeat; }
+    .hero-split-before::after, .hero-split-after::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,5,12,0.15) 0%, rgba(5,5,12,0.6) 100%); }
+    .hero-split-label { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.8); z-index: 2; white-space: nowrap; }
+    .hero-split-divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--gold); z-index: 3; transform: translateX(-50%); }
+    .hero-left-copy { position: absolute; bottom: 0; left: 0; right: 0; z-index: 4; padding: 32px 40px; background: linear-gradient(to top, rgba(5,5,12,0.95) 0%, rgba(5,5,12,0.7) 60%, transparent 100%); }
     .hero-kicker { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 16px; }
     .hero-headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: 72px; line-height: 0.95; color: #FFFFFF; margin-bottom: 16px; }
     .hero-rule-gold { width: 44px; height: 2px; background: var(--gold); border: none; display: block; margin-bottom: 16px; opacity: 0.8; }
@@ -206,8 +213,9 @@
     @media (max-width: 768px) {
       .slim-nav { padding: 0 20px; height: 56px; }
       .hero-band { flex-direction: column; height: auto; }
-      .hero-left { width: 100%; min-height: 50vh; }
-      .hero-left-copy { left: 24px; right: 20px; bottom: 32px; top: auto; transform: none; }
+      .hero-left { width: 100%; min-height: 50vh; position: relative; height: auto; }
+      .hero-split { min-height: 40vh; }
+      .hero-left-copy { padding: 24px 20px; }
       .hero-headline { font-size: 50px; line-height: 0.95; }
       .hero-body { display: none; }
       .hero-kicker { font-size: 9px; margin-bottom: 12px; }
@@ -289,12 +297,19 @@
 
   <div class="hero-band">
     <div class="hero-left">
+      <div class="hero-split">
+        <div class="hero-split-before">
+          <span class="hero-split-label">Before</span>
+        </div>
+        <div class="hero-split-divider"></div>
+        <div class="hero-split-after">
+          <span class="hero-split-label">After</span>
+        </div>
+      </div>
       <div class="hero-left-copy">
         <span class="hero-kicker">Road to Her Smile</span>
-        <h1 class="hero-headline">Help us tell<br>this story.</h1>
-        <hr class="hero-rule-gold">
-        <p class="hero-body">Lia Spriggs was failed by a husband, a doctor, and a community she trusted. Your gift helps make sure the world finally hears her story.</p>
-        <div class="hero-trust">
+        <h1 class="hero-headline" style="font-size:52px;">Help us tell<br>this story.</h1>
+        <div class="hero-trust" style="margin-top:12px;">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="6" width="9" height="6" rx="1" stroke="rgba(250,250,247,0.4)" stroke-width="1"/><path d="M4 6V4a2.5 2.5 0 015 0v2" stroke="rgba(250,250,247,0.4)" stroke-width="1"/></svg>
           100% of your gift funds the documentary and Lia's restoration
         </div>
