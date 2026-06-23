@@ -43,8 +43,8 @@
     .nav-back { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 11px; letter-spacing: 0.1em; color: #888888; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
     .nav-back:hover { color: var(--gold); }
 
-    .hero-band { display: flex; width: 100%; min-height: 100vh; padding-top: 60px; }
-    .hero-left { width: 55%; position: relative; overflow: hidden; background-color: #0D0D12; background-image: linear-gradient(to bottom, rgba(5,5,12,0.28) 0%, rgba(5,5,12,0.10) 45%, rgba(5,5,12,0.78) 100%), url('lia-hero.png'); background-size: cover; background-position: center center; flex-shrink: 0; }
+    .hero-band { display: flex; width: 100%; height: calc(100vh - 60px); margin-top: 60px; }
+    .hero-left { width: 55%; position: relative; overflow: hidden; background-color: #0D0D12; background-image: linear-gradient(to bottom, rgba(5,5,12,0.28) 0%, rgba(5,5,12,0.10) 45%, rgba(5,5,12,0.78) 100%), url('lia-hero.png'); background-size: cover; background-position: center center; flex-shrink: 0; flex-grow: 0; }
     .hero-left-copy { position: absolute; top: 50%; left: 52px; right: 40px; transform: translateY(-50%); }
     .hero-kicker { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 16px; }
     .hero-headline { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: 72px; line-height: 0.95; color: #FFFFFF; margin-bottom: 16px; }
@@ -130,6 +130,30 @@
     .custom-modal-wrap { margin-top: 0; }
     .custom-modal-wrap label { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
 
+    /* Bracket confirmation card */
+    .bracket-confirm-card { display: none; background: #F8F6F0; border: 1px solid rgba(201,169,110,0.4); border-radius: 4px; padding: 28px; margin-bottom: 20px; text-align: center; }
+    .bracket-confirm-card.visible { display: block; }
+    .bcc-tier { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 28px; color: var(--ink); margin-bottom: 8px; }
+    .bcc-amount { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 36px; color: var(--ink); margin-bottom: 8px; }
+    .bcc-locked { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--gold); margin-bottom: 20px; }
+    .bcc-actions { display: flex; gap: 12px; justify-content: center; }
+    .bcc-btn { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 10px 20px; border-radius: 2px; cursor: pointer; transition: all 200ms; }
+    .bcc-btn-edit { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .bcc-btn-edit:hover { border-color: var(--gold); color: var(--ink); }
+    .bcc-btn-change { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+    .bcc-btn-change:hover { background: var(--gold); color: var(--ink); }
+
+    /* In-Kind checkbox grid */
+    .inkind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; }
+    .inkind-check { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #E8E8E8; border-radius: 3px; cursor: pointer; transition: all 200ms; user-select: none; }
+    .inkind-check:hover { border-color: rgba(201,169,110,0.4); background: #FDFCFA; }
+    .inkind-check input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; border: 1.5px solid #DCDCDC; border-radius: 2px; flex-shrink: 0; cursor: pointer; position: relative; transition: all 200ms; }
+    .inkind-check input[type="checkbox"]:checked { background: var(--gold); border-color: var(--gold); }
+    .inkind-check input[type="checkbox"]:checked::after { content: ''; position: absolute; left: 5px; top: 2px; width: 5px; height: 9px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .inkind-check span { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 12px; color: var(--ink); line-height: 1.3; }
+    .inkind-other-desc { display: none; margin-bottom: 18px; }
+    .inkind-other-desc.visible { display: block; }
+
     /* In-Kind form */
     .inkind-panel { display: none; }
     .inkind-panel.visible { display: block; }
@@ -181,7 +205,7 @@
     }
     @media (max-width: 768px) {
       .slim-nav { padding: 0 20px; height: 56px; }
-      .hero-band { flex-direction: column; min-height: auto; }
+      .hero-band { flex-direction: column; height: auto; }
       .hero-left { width: 100%; min-height: 50vh; }
       .hero-left-copy { left: 24px; right: 20px; bottom: 32px; top: auto; transform: none; }
       .hero-headline { font-size: 50px; line-height: 0.95; }
@@ -203,6 +227,7 @@
       .footer-socials { justify-content: flex-start; }
       .freq-btn { font-size: 9px; }
       .modal { padding: 32px 24px; }
+      .inkind-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .slim-nav { padding: 0 16px; height: 52px; }
@@ -321,6 +346,16 @@
           </div>
           <span class="impact-line" id="impact-line"></span>
 
+          <div class="bracket-confirm-card" id="bracket-confirm-card">
+            <div class="bcc-tier" id="bcc-tier"></div>
+            <div class="bcc-amount" id="bcc-amount"></div>
+            <div class="bcc-locked">You're locked in.</div>
+            <div class="bcc-actions">
+              <button class="bcc-btn bcc-btn-edit" onclick="editBracketAmount()">Edit</button>
+              <button class="bcc-btn bcc-btn-change" onclick="chooseDifferentTier()">Choose a Different Tier</button>
+            </div>
+          </div>
+
           <hr class="divider">
 
           <span class="payment-lbl">Payment Details</span>
@@ -346,19 +381,30 @@
           <div id="inkind-form-wrap">
             <div class="donor-fields">
               <div class="field-wrap">
-                <label class="field-lbl" for="inkind-category">What can you offer?</label>
-                <select id="inkind-category" class="field-select">
-                  <option value="" disabled selected>Select a category</option>
-                  <option value="Venue">Venue</option>
-                  <option value="Catering">Catering</option>
-                  <option value="Wardrobe">Wardrobe</option>
-                  <option value="Equipment">Equipment</option>
-                  <option value="Lodging">Lodging</option>
-                  <option value="Other">Other</option>
-                </select>
+                <label class="field-lbl">What can you offer? (select all that apply)</label>
+                <div class="inkind-grid" id="inkind-grid">
+                  <label class="inkind-check"><input type="checkbox" value="Venue / Event Space"><span>Venue / Event Space</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Catering / Food & Beverage"><span>Catering / Food & Beverage</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Hotel Rooms / Lodging"><span>Hotel Rooms / Lodging</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Transportation"><span>Transportation</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Wardrobe / Styling Services"><span>Wardrobe / Styling Services</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Hair & Makeup Services"><span>Hair & Makeup Services</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Photography / Videography Equipment Rental"><span>Photography / Video Equipment</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Audio/Visual & Production Equipment"><span>AV & Production Equipment</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Printing & Signage"><span>Printing & Signage</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Legal Services"><span>Legal Services</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Marketing / PR Services"><span>Marketing / PR Services</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Florals & Event Decor"><span>Florals & Event Decor</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Security Services"><span>Security Services</span></label>
+                  <label class="inkind-check"><input type="checkbox" value="Other" id="inkind-other-check" onchange="toggleOtherDesc()"><span>Other</span></label>
+                </div>
+              </div>
+              <div class="field-wrap inkind-other-desc" id="inkind-other-desc-wrap">
+                <label class="field-lbl" for="inkind-other-text">Please describe what you can offer</label>
+                <input type="text" id="inkind-other-text" class="field-inp" placeholder="E.g., Graphic design services for event materials">
               </div>
               <div class="field-wrap">
-                <label class="field-lbl" for="inkind-desc">Describe what you can offer</label>
+                <label class="field-lbl" for="inkind-desc">Additional details</label>
                 <textarea id="inkind-desc" class="field-textarea" placeholder="E.g., We can provide a hotel suite for 3 nights for the production crew..."></textarea>
               </div>
               <div class="field-wrap">
@@ -573,8 +619,27 @@
       document.getElementById('bracket-error').classList.remove('visible');
       currentAmt = val;
       closeModals();
-      document.getElementById('impact-line').textContent = `${selectedBracket.tier} — $${val.toLocaleString()} one-time gift.`;
+      document.getElementById('impact-line').textContent = '';
+      document.getElementById('bcc-tier').textContent = "You've selected " + selectedBracket.tier;
+      document.getElementById('bcc-amount').textContent = '$' + val.toLocaleString();
+      document.getElementById('bracket-confirm-card').classList.add('visible');
       schedule(val);
+    }
+
+    function editBracketAmount() {
+      document.getElementById('bracket-confirm-card').classList.remove('visible');
+      document.getElementById('bracket-step-1').style.display = 'none';
+      document.getElementById('bracket-step-2').style.display = 'block';
+      document.getElementById('bracket-amount-input').value = currentAmt || '';
+      document.getElementById('bracket-selected-label').textContent = selectedBracket.label;
+      document.getElementById('bracket-modal').classList.add('open');
+    }
+
+    function chooseDifferentTier() {
+      document.getElementById('bracket-confirm-card').classList.remove('visible');
+      currentAmt = 0;
+      selectedBracket = null;
+      openBracketModal();
     }
 
     // ── CUSTOM AMOUNT MODAL ──
@@ -604,24 +669,36 @@
     });
 
     // ── IN-KIND FORM ──
+    function toggleOtherDesc() {
+      const checked = document.getElementById('inkind-other-check').checked;
+      document.getElementById('inkind-other-desc-wrap').classList.toggle('visible', checked);
+      if (!checked) document.getElementById('inkind-other-text').value = '';
+    }
+
     async function submitInKind() {
-      const category = document.getElementById('inkind-category').value;
+      const checks = document.querySelectorAll('#inkind-grid input[type="checkbox"]:checked');
+      const categories = Array.from(checks).map(c => c.value);
+      const otherChecked = document.getElementById('inkind-other-check').checked;
+      const otherText = document.getElementById('inkind-other-text').value.trim();
       const desc = document.getElementById('inkind-desc').value.trim();
       const name = document.getElementById('inkind-name').value.trim();
       const email = document.getElementById('inkind-email').value.trim();
       const phone = document.getElementById('inkind-phone').value.trim();
-      if (!category || !desc || !name || !email) {
-        alert('Please fill in all required fields (category, description, name, email).');
-        return;
+      if (categories.length === 0) { alert('Please select at least one category.'); return; }
+      if (otherChecked && !otherText) { alert('Please describe what you can offer for the "Other" category.'); return; }
+      if (!name || !email) { alert('Please provide your name and email address.'); return; }
+      if (otherChecked && otherText) {
+        const idx = categories.indexOf('Other');
+        if (idx !== -1) categories[idx] = 'Other: ' + otherText;
       }
       try {
         await fetch('/api/inkind', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ category, description: desc, name, email, phone }),
+          body: JSON.stringify({ categories, description: desc, name, email, phone }),
         });
       } catch (e) {
-        console.log('In-kind submission (offline):', { category, desc, name, email, phone });
+        console.log('In-kind submission (offline):', { categories, desc, name, email, phone });
       }
       document.getElementById('inkind-form-wrap').style.display = 'none';
       document.getElementById('inkind-success').classList.add('visible');

@@ -86,8 +86,8 @@ app.post('/create-payment-intent', async (req, res) => {
 });
 
 app.post('/api/inkind', (req, res) => {
-  const { category, description, name, email, phone } = req.body;
-  const entry = { category, description, name, email, phone, timestamp: new Date().toISOString() };
+  const { categories, category, description, name, email, phone } = req.body;
+  const entry = { categories: categories || (category ? [category] : []), description, name, email, phone, timestamp: new Date().toISOString() };
   console.log('In-kind submission received:', JSON.stringify(entry));
   const fs = require('fs');
   const filePath = path.join(__dirname, 'data', 'inkind-submissions.json');
